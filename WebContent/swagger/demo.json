@@ -1,0 +1,1633 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "大家可以在此页面做服务端接口的测试啦",
+        "title": "项目测试页"
+    },
+    "host": "192.168.10.7:8080/SuperWeChatServerV2.0",
+    "tags": [
+        {
+            "name": "superwechat",
+            "description": "所有接口",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://swagger.io"
+            }
+        },
+        {
+            "name": "live",
+            "description": "直播相关接口！"
+        },
+        {
+            "name": "user",
+            "description": "操作用户相关！",
+            "externalDocs": {
+                "description": "Find out more about our store",
+                "url": "http://swagger.io"
+            }
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/getServerStatus": {
+            "get": {
+                "tags": [
+                    "superwechat"
+                ],
+                "summary": "获取服务端状态",
+                "description": "在首次连接服务端获取数据直接使用，用来检测客户端与服务端的连接状态。",
+				"author": " 2016年7月4日17:47:19"
+            }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "新用户注册",
+                "description": "将新用户信息及头像使用POST提交到服务器，完成新用户的注册。",
+                "author": " 2016年7月4日19:32:22",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_user_name",
+                        "in": "query",
+                        "description": "账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_user_nick",
+                        "in": "query",
+                        "description": "昵称",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_user_password",
+                        "in": "query",
+                        "description": "密码",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "所要上传的头像",
+                        "required": false,
+                        "type": "file"
+                    }
+                ]
+            }
+        },
+        "/unregister":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "取消注册",
+                "description": "在客户端注册新用户时候，环信服务器注册失败需要将远端提交注册的新用户数据及图片删除",
+                "author": " 2016年7月5日16:46:38",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_user_name",
+                        "in": "query",
+                        "description": "账号",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/login":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "用户登录",
+                "description": "使用用户账号和密码登录服务端,服务器完成用户名和密码的校验逻辑",
+                "author": " 2016年7月5日16:36:11",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_user_name",
+                        "in": "query",
+                        "description": "账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_user_password",
+                        "in": "query",
+                        "description": "密码",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/downloadAvatar":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "下载头像",
+                "description": "提供头像数据，供客户端下载",
+                "author": " 2016年7月5日16:58:13",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name_or_hxid",
+                        "in": "query",
+                        "description": "用户的账号或群组的环信id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "avatarType",
+                        "in": "query",
+                        "description": "头像类型",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "user_avatar",
+                                "group_icon",
+                                "chatroom_icon"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "m_avatar_suffix",
+                        "in": "query",
+                        "description": "头像后缀名",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                ".jpg",
+                                ".png"
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "/updateAvatar":{
+            "post": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "更新用户头像",
+                "description": "客户端传入新图片，服务器接收新图片覆盖老图片同时将数据库更新",
+                "author": " 2016年7月5日17:50:46",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name_or_hxid",
+                        "in": "query",
+                        "description": "用户的账号或群组的环信id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "avatarType",
+                        "in": "query",
+                        "description": "头像类型",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "user_avatar",
+                                "group_icon"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "所要上传的头像用于更新头像",
+                        "required": false,
+                        "type": "file"
+                    }
+                ]
+            }
+        },
+         "/updateNick":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "更新用户昵称",
+                "description": "客户端传来用户名和新昵称，服务端根据用户名更新昵称为新昵称的值",
+                "author": " 2016年7月5日18:14:03",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_user_nick",
+                        "in": "query",
+                        "description": "用户新昵称",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/updatePassword":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "更新用户密码",
+                "description": "客户端传来用户名和新密码，服务端根据用户名更新密码为新密码的值",
+                "author": " 2016年7月6日09:54:24",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_user_password",
+                        "in": "query",
+                        "description": "用户新密码",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/downloadContactAllList":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "下载用户的好友列表的全部数据",
+                "description": "获取指定账号的好友列表全部数据",
+                "author": " 2016年7月6日10:02:28",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_contact_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/downloadContactPageList": {
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "分页下载用户的好友列表的全部数据",
+                "description": "分页获取指定账号的好友列表全部数据",
+                "author": " 2016年7月6日10:09:01",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_contact_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page_id",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "每页数据条数",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/addContact": {
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "添加好友",
+                "description": "根据两个用户的用户账号添加为好友关系，增加一条数据。",
+                "author": " 2016年7月6日10:28:16",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_contact_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_contact_cname",
+                        "in": "query",
+                        "description": "要添加的好友账号",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/deleteContact": {
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "删除好友",
+                "description": "根据两个用户的用户账号删除好友关系，删除好友表中的两条数据。",
+                "author": " 2016年7月6日10:31:41",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_contact_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_contact_cname",
+                        "in": "query",
+                        "description": "好友账号",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/findUserByUserName":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "根据用户名查找用户信息",
+                "description": "根据用户名查找用户信息，包括用户头像信息",
+                "author": " 2016年7月6日10:43:52",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/findUsersForSearch":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "根据用户名或昵称模糊分页查找用户数据",
+                "description": "根据用户名或昵称，模糊分页查询用户数据信息",
+                "author": " 2016年7月6日13:15:45",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_user_nick",
+                        "in": "query",
+                        "description": "用户新昵称",
+                        "type": "string"
+                    },
+                    {
+                        "name": "page_id",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "每页数据条数",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/createGroup": {
+            "post": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "创建群组",
+                "description": "根据客户端传来的群组信息及头像，创建群组",
+                "author": " 2016年7月6日13:56:01",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_group_hxid",
+                        "in": "query",
+                        "description": "环信ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_group_name",
+                        "in": "query",
+                        "description": "群组名称",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_group_description",
+                        "in": "query",
+                        "description": "群组描述",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_group_owner",
+                        "in": "query",
+                        "description": "群组所有者－用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_group_is_public",
+                        "in": "query",
+                        "description": "是否是公开群",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "m_group_allow_invites",
+                        "in": "query",
+                        "description": "是否可以邀请",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "所要上传的头像",
+                        "required": false,
+                        "type": "file"
+                    }
+                ]
+            }
+        },
+        "/updateGroupName":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "更新群组名称",
+                "description": "根据群组ID更新群组名称",
+                "author": " 2016年7月6日16:53:38",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_group_id",
+                        "in": "query",
+                        "description": "群组ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_group_name",
+                        "in": "query",
+                        "description": "群组新名称",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/updateGroupNameByHxId":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "更新群组名称",
+                "description": "根据环信ID更新群组名称",
+                "author": " 2016年7月6日16:53:38",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_group_hxid",
+                        "in": "query",
+                        "description": "环信ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_group_name",
+                        "in": "query",
+                        "description": "群组新名称",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/addGroupMember":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "添加群成员",
+                "description": "将指定用户添加到指定群中",
+                "author": " 2016年7月6日17:21:33",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_member_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_member_group_hxid",
+                        "in": "query",
+                        "description": "群组环信ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/addGroupMembers":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "批量添加群成员",
+                "description": "将批量用户添加到指定群中",
+                "author": " 2016年7月6日17:23:08",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_member_user_name",
+                        "in": "query",
+                        "description": "多个用户的账号，账号之间使用英文逗号分隔",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_member_group_hxid",
+                        "in": "query",
+                        "description": "群组环信ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/downloadGroupMembersByGroupId":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "根据群组ID下载全部群成员信息",
+                "description": "根据群组ID下载全部群成员信息",
+                "author": " 2016年7月6日17:36:05",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_member_group_id",
+                        "in": "query",
+                        "description": "群组ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/downloadGroupMembersPagesByGroupId":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "根据群组ID分页下载群成员信息",
+                "description": "根据群组ID分页下载群成员信息",
+                "author": " 2016年7月6日17:39:39",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_member_group_id",
+                        "in": "query",
+                        "description": "群组ID",
+                        "required": true,
+                        "type": "string"
+                    }, 
+                    {
+                        "name": "page_id",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "type": "integer"
+                    }, 
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "每页数据条数",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/downloadGroupMembersByHxId":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "根据群组环信ID下载全部群成员信息",
+                "description": "根据群组环信ID下载全部群成员信息",
+                "author": " 2016年7月6日17:49:09",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_member_group_hxid",
+                        "in": "query",
+                        "description": "群组环信ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/downloadGroupMembersPagesByHxId":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "根据群组环信ID分页下载群成员信息",
+                "description": "根据群组环信ID分页下载群成员信息",
+                "author": " 2016年7月6日17:51:00",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_member_group_hxid",
+                        "in": "query",
+                        "description": "群组环信ID",
+                        "required": true,
+                        "type": "string"
+                    }, 
+                    {
+                        "name": "page_id",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "type": "integer"
+                    }, 
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "每页数据条数",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/deleteGroupMember":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "删除单个群成员",
+                "description": "在指定群中删除单个指定群成员",
+                "author": " 2016年7月6日17:56:56",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_member_group_id",
+                        "in": "query",
+                        "description": "群组ID",
+                        "required": true,
+                        "type": "integer"
+                    }, 
+                    {
+                        "name": "m_member_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/deleteGroupMembers":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "删除多个群成员",
+                "description": "在指定群中删除多个指定群成员",
+                "author": " 2016年7月6日18:00:40",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_member_group_id",
+                        "in": "query",
+                        "description": "群组ID",
+                        "required": true,
+                        "type": "integer"
+                    }, 
+                    {
+                        "name": "m_member_user_name",
+                        "in": "query",
+                        "description": "多个用户账号，账号之间使用英文逗号分隔",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/deleteGroup":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "删除群组",
+                "description": "删除群组，删除群组头像，删除群组所有成员信息",
+                "author": " 2016年7月6日18:03:04",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_group_id",
+                        "in": "query",
+                        "description": "群组ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/deleteGroupByHxid":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "根据环信ID删除群组",
+                "description": "删除群组，删除群组头像，删除群组所有成员信息",
+                "author": " 2016年7月6日18:03:04",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_group_hxid",
+                        "in": "query",
+                        "description": "群组环信ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/findAllGroupByUserName":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "获取指定用户的群组全部数据列表",
+                "description": "获取指定用户的群组列表全部数据，包含公开群组和非公开群组。",
+                "author": " 2016年7月7日14:13:36",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/findPublicGroups":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "分页下载公开群组列表",
+                "description": "获取所有的公开群组信息，不包括指定用户已经加入进来的公开群组信息",
+                "author": " 2016年7月7日15:30:26",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page_id",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "type": "integer"
+                    }, 
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "每页数据条数",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/findGroupByGroupName":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "根据群组名称模糊查询群组信息",
+                "description": "根据群组名称模糊查询群组列表全部数据，包含公开群组和非公开群组。",
+                "author": " 2016年7月7日15:31:25",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_group_name",
+                        "in": "query",
+                        "description": "群组模糊名称",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/findGroupByGroupId":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "根据群组ID查找群组信息",
+                "description": "根据群组ID查找群组数据，包括群组信息和头像信息",
+                "author": " 2016年7月7日15:37:45",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_group_id",
+                        "in": "query",
+                        "description": "群组ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/findGroupByHxId":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "根据群组环信ID查找群组信息",
+                "description": "根据群组环信ID查找群组数据，包括群组信息和头像信息",
+                "author": " 2016年7月7日15:38:02",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_group_hxid",
+                        "in": "query",
+                        "description": "群组环信ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/findPublicGroupByHxId":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "根据群组环信id查找公开群组",
+                "description": "根据群组环信ID查找群组数据，包括群组信息和头像信息，本接口为在上一个接口的基础上添加了公开的条件",
+                "author": " 2016年7月7日15:50:06",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_group_hxid",
+                        "in": "query",
+                        "description": "群组环信ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/uploadLocation":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "上传用户地理位置信息",
+                "description": "接收用户上传地理位置信息",
+                "author": " 2016年7月7日16:16:06",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_location_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_location_latitude",
+                        "in": "query",
+                        "description": "地理位置的纬度",
+                        "required": true,
+                        "type": "double"
+                    },
+                    {
+                        "name": "m_location_longitude",
+                        "in": "query",
+                        "description": "地理位置的经度",
+                        "required": true,
+                        "type": "double"
+                    }
+                ]
+            }
+        },
+        "/updateLocation":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "更新用户地理位置信息",
+                "description": "接收用户上传地理位置信息并更新原数据",
+                "author": " 2016年7月7日16:19:46",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_location_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "m_location_latitude",
+                        "in": "query",
+                        "description": "地理位置的纬度",
+                        "required": true,
+                        "type": "double"
+                    },
+                    {
+                        "name": "m_location_longitude",
+                        "in": "query",
+                        "description": "地理位置的经度",
+                        "required": true,
+                        "type": "double"
+                    },
+                    {
+                        "name": "m_location_is_searched",
+                        "in": "query",
+                        "description": "是否能被搜到",
+                        "required": true,
+                        "type": "boolean"
+                    }
+                ]
+            }
+        },
+        "/downloadLocation":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "分页下载附近的人",
+                "description": "根据用户账号，查找附近可以被搜索到的用户地理位置数据集合。",
+                "author": " 2016年7月7日16:22:27",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "m_location_user_name",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page_id",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "type": "integer"
+                    }, 
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "每页数据条数",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/logs":{
+            "get": {
+                "tags": [
+                   "superwechat"  
+                ],
+                "summary": "获取服务器日志",
+                "description": "获取服务器日志",
+                "author": " 2016年11月17日18:51:09",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "sum",
+                        "in": "query",
+                        "description": "查找日志的条数",
+                        "required": true,
+                        "type": "int"
+                    }
+                ]
+            }
+        },
+        "/live/getAllGifts":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "获取全部礼物",
+                "description": "客户端请求全部礼物信息并展示，包括礼物的名称、图片地址和价格。",
+                "author": " 2016年12月1日14:29:11"
+            }
+        },
+        "/live/getRechargeStatements":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "分页获取充值流水",
+                "description": "客户端分页加载充值流水",
+                "author": " 2016年12月1日14:32:14",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "uname",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "pageId",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "每页记录条数",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/live/getBalance":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "根据用户名获取账户余额",
+                "description": "客户端根据用户名获取账户余额",
+                "author": " 2016年12月1日14:34:05",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "uname",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/live/getGiftStatementsByAnchor":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "统计主播礼物信息",
+                "description": "统计主播收到礼物的次数、数量及礼物信息等",
+                "author": " 2016年12月1日14:35:33",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "anchor",
+                        "in": "query",
+                        "description": "主播账号",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/live/givingGifts":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "赠送礼物",
+                "description": "用户给主播赠送礼物",
+                "author": " 2016年12月1日14:38:30",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "uname",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "anchor",
+                        "in": "query",
+                        "description": "主播账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "giftId",
+                        "in": "query",
+                        "description": "礼物ID",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "giftNum",
+                        "in": "query",
+                        "description": "礼物数量",
+                        "type": "integer",
+                        "default": 1
+                    }
+                ]
+            }
+        },
+        "/live/getGivingGiftStatements":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "分页获取送礼物流水",
+                "description": "客户端分页加载送礼物流水",
+                "author": " 2016年12月7日18:00:13",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "uname",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "pageId",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "每页记录条数",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/live/getReceivingGiftStatementsServlet":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "分页获取收礼物流水",
+                "description": "客户端分页加载主播收礼物流水",
+                "author": " 2016年12月7日18:01:00",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "anchor",
+                        "in": "query",
+                        "description": "主播账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "pageId",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "每页记录条数",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/live/recharge":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "账户充值",
+                "description": "用户充值",
+                "author": " 2016年12月1日14:57:46",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "uname",
+                        "in": "query",
+                        "description": "用户账号",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "rmb",
+                        "in": "query",
+                        "description": "充值所需人民币数",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ]
+            }
+        },
+        "/live/createChatRoom":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "创建直播室",
+                "description": "管理员创建直播室",
+                "author": " 2016年12月6日16:47:29",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "auth",
+                        "in": "query",
+                        "description": "用户口令",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "直播室名称",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "直播室描述",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "owner",
+                        "in": "query",
+                        "description": "直播室主播名称",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "maxusers",
+                        "in": "query",
+                        "description": "直播室最大人数",
+                        "required": true,
+                        "type": "integer",
+                        "default": 300
+                    },
+                    {
+                        "name": "members",
+                        "in": "query",
+                        "description": "直播室观众账户，多个成员以,分割",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/live/uploadChatRoomAvatar":{
+            "post": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "上传直播室头像图片",
+                "description": "上传直播室头像图片",
+                "author": " 2016年12月12日09:41:04",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "chatRoomId",
+                        "in": "query",
+                        "description": "直播室ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "所要上传的聊天室头像",
+                        "required": true,
+                        "type": "file"
+                    }
+                ]
+            }
+        },
+        "/live/getAllChatRoom":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "查询全部直播室",
+                "description": "查询全部直播室",
+                "author": " 2016年12月6日17:12:17"
+            }
+        },
+        "/live/getChatRoomDetail":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "获取直播室详情",
+                "description": "获取聊天室详情",
+                "author": " 2016年12月6日17:20:23",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "chatRoomId",
+                        "in": "query",
+                        "description": "直播室ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/live/deleteChatRoom":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "删除直播室",
+                "description": "根据直播室ID删除指定直播室",
+                "author": " 2016年12月6日17:20:23",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "auth",
+                        "in": "query",
+                        "description": "用户口令",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "chatRoomId",
+                        "in": "query",
+                        "description": "直播室ID",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/live/deleteChatRoomMember":{
+            "get": {
+                "tags": [
+                   "live"  
+                ],
+                "summary": "删除直播室指定成员",
+                "description": "根据直播室ID和成员名删除指定直播室中的指定成员",
+                "author": " 2016年12月6日17:28:48",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "auth",
+                        "in": "query",
+                        "description": "用户口令",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "chatRoomId",
+                        "in": "query",
+                        "description": "直播室ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "直播室中的成员的用户名",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "petstore_auth": {
+            "type": "oauth2",
+            "authorizationUrl": "http://petstore.swagger.io/api/oauth/dialog",
+            "flow": "implicit",
+            "scopes": {
+                "write:pets": "modify pets in your account",
+                "read:pets": "read your pets"
+            }
+        },
+        "api_key": {
+            "type": "apiKey",
+            "name": "api_key",
+            "in": "header"
+        }
+    }
+}
